@@ -182,6 +182,12 @@ function readOutLoud(message) {
     speech.voice = voices.filter(function (voice) { return voice.name == 'Google US English Male'; })[0];
     window.speechSynthesis.speak(speech);
   };
+  if (speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = setVoiceAndSpeak;
+  } else {
+    setVoiceAndSpeak(); // For browsers that don't support onvoiceschanged
+  }
+  
 }
 
 /*-----------------------------
