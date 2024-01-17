@@ -178,7 +178,7 @@ function readOutLoud(message) {
 
   function setVoiceAndSpeak() {
     var voices = window.speechSynthesis.getVoices();
-    var selectedVoice = voices.find(voice => voice.name === 'Google US English Female');
+    var selectedVoice = voices[3];
     speech.voice = selectedVoice || voices[0]; // Fallback to the first available voice
     window.speechSynthesis.speak(speech);
   }
