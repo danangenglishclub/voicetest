@@ -169,25 +169,28 @@ notesList.on('click', function(e) {
 /*-----------------------------
       Speech Synthesis 
 ------------------------------*/
+
+
 function readOutLoud(message) {
+  window.speechSynthesis.cancel();
+
   var speech = new SpeechSynthesisUtterance();
   speech.text = message;
   speech.volume = 1;
-  speech.rate = 0.9;
+  speech.rate = 0.6;
   speech.pitch = 1;
 
   function setVoiceAndSpeak() {
     var voices = window.speechSynthesis.getVoices();
-    var selectedVoice = voices[3];
+    var selectedVoice = voices.find(voice => voice.name === 'Google US English Male');
     speech.voice = selectedVoice || voices[0]; // Fallback to the first available voice
     window.speechSynthesis.speak(speech);
   }
 
-  if (speechSynthesis.onvoiceschanged !== undefined) {
-    speechSynthesis.onvoiceschanged = setVoiceAndSpeak;
-  } else {
-    setVoiceAndSpeak(); // For browsers that don't support onvoiceschanged
-  }
+  // This delay helps ensure voices are loaded, especially on mobile
+  setTimeout(() => {
+    setVoiceAndSpeak();
+  }, 100);
 }
 
 /*-----------------------------
