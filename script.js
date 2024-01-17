@@ -169,20 +169,20 @@ notesList.on('click', function(e) {
 /*-----------------------------
       Speech Synthesis 
 ------------------------------*/
-
 function readOutLoud(message) {
-	var speech = new SpeechSynthesisUtterance();
+  var speech = new SpeechSynthesisUtterance();
+  speech.text = message;
+  speech.volume = 1;
+  speech.rate = 0.6; // Adjust for natural speed
 
-  // Set the text and voice attributes.
-	speech.text = message;
-	speech.volume = 1;
-	speech.rate = .6;
-	speech.pitch = 1.4
-  
-	window.speechSynthesis.speak(speech);
+
+  // List available voices and choose one
+  window.speechSynthesis.onvoiceschanged = function () {
+    var voices = window.speechSynthesis.getVoices();
+    speech.voice = voices.filter(function (voice) { return voice.name == 'Google US English Male'; })[0];
+    window.speechSynthesis.speak(speech);
+  };
 }
-
-
 
 /*-----------------------------
       Helper Functions 
