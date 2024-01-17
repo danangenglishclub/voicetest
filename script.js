@@ -173,21 +173,21 @@ function readOutLoud(message) {
   var speech = new SpeechSynthesisUtterance();
   speech.text = message;
   speech.volume = 1;
-  speech.rate = 0.6; // Adjust for natural speed
+  speech.rate = 0.9;
+  speech.pitch = 1;
 
-
-  // List available voices and choose one
-  window.speechSynthesis.onvoiceschanged = function () {
+  function setVoiceAndSpeak() {
     var voices = window.speechSynthesis.getVoices();
-    speech.voice = voices.filter(function (voice) { return voice.name == 'Google US English Male'; })[0];
+    var selectedVoice = voices.find(voice => voice.name === 'Google US English Female');
+    speech.voice = selectedVoice || voices[0]; // Fallback to the first available voice
     window.speechSynthesis.speak(speech);
-  };
+  }
+
   if (speechSynthesis.onvoiceschanged !== undefined) {
     speechSynthesis.onvoiceschanged = setVoiceAndSpeak;
   } else {
     setVoiceAndSpeak(); // For browsers that don't support onvoiceschanged
   }
-  
 }
 
 /*-----------------------------
